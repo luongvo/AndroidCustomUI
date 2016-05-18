@@ -8,4 +8,7 @@
 
     <color name="button_red">#e85941</color>
     <color name="button_red_pressed">#ff5e52</color>
+    <color name="button_disabled">#efefef</color>
+
+    <color name="text_disabled">#bababa</color>
 </resources>

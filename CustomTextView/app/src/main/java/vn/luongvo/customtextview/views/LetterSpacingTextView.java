@@ -13,8 +13,8 @@ import android.widget.TextView;
 public class LetterSpacingTextView extends TextView {
     private final float DEFAULT_LETTER_SPACING = 5f;
 
-    private float letterSpacing = DEFAULT_LETTER_SPACING;
-    private CharSequence originalText = "";
+    private float mLetterSpacing = DEFAULT_LETTER_SPACING;
+    private CharSequence mOriginalText = "";
 
     public LetterSpacingTextView(Context context) {
         super(context);
@@ -22,7 +22,7 @@ public class LetterSpacingTextView extends TextView {
 
     public LetterSpacingTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        originalText = super.getText().toString().replace("\u00A0", "");
+        mOriginalText = super.getText().toString().replace("\u00A0", "");
         applyLetterSpacing();
         this.invalidate();
     }
@@ -32,40 +32,40 @@ public class LetterSpacingTextView extends TextView {
     }
 
     public float getLetterSpacing() {
-        return letterSpacing;
+        return mLetterSpacing;
     }
 
     public void setLetterSpacing(float letterSpacing) {
-        this.letterSpacing = letterSpacing;
+        this.mLetterSpacing = letterSpacing;
         applyLetterSpacing();
     }
 
     @Override
     public void setText(CharSequence text, BufferType type) {
-        originalText = text;
+        mOriginalText = text;
         applyLetterSpacing();
     }
 
     @Override
     public CharSequence getText() {
-        return originalText;
+        return mOriginalText;
     }
 
     private void applyLetterSpacing() {
-        if (originalText == null) {
-            originalText = "";
+        if (mOriginalText == null) {
+            mOriginalText = "";
         }
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < originalText.length(); i++) {
-            builder.append(originalText.charAt(i));
-            if (i + 1 < originalText.length()) {
+        for (int i = 0; i < mOriginalText.length(); i++) {
+            builder.append(mOriginalText.charAt(i));
+            if (i + 1 < mOriginalText.length()) {
                 builder.append("\u00A0");
             }
         }
         SpannableString finalText = new SpannableString(builder.toString());
         if (builder.toString().length() > 1) {
             for (int i = 1; i < builder.toString().length(); i += 2) {
-                finalText.setSpan(new ScaleXSpan((letterSpacing + 1) / 10), i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                finalText.setSpan(new ScaleXSpan((mLetterSpacing + 1) / 10), i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
         }
         super.setText(finalText, BufferType.SPANNABLE);
